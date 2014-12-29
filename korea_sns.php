@@ -37,9 +37,10 @@ function kon_tergos_init() {
 	$option = kon_tergos_get_options_stored();
 
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('kakao', 'https://developers.kakao.com/sdk/js/kakao.min.js');
-	//wp_enqueue_script('kakaolink', plugins_url( 'kakao.link.js', __FILE__ ));
-	wp_enqueue_script('koreasns', plugins_url( 'korea_sns.js', __FILE__ ));
+	wp_enqueue_script('kakao_sdk', 'https://developers.kakao.com/sdk/js/kakao.min.js');
+	wp_enqueue_script('koreasns_js', plugins_url( 'korea_sns.js', __FILE__ ));
+	wp_register_style( 'koreasns_css', plugins_url('korea_sns.css', __FILE__) );
+	wp_enqueue_style( 'koreasns_css' );
 }
 
 function kon_tergos_menu() {
@@ -176,30 +177,15 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				break;
 		}
 		
-		$arOut[$snsKey] = '<div style="float:'.$option['position_float'].';margin-right:10px;" class="korea-sns-'.$snsKey.'">'.$loc.'</div>';
-	}
-
-	if( $option['position_float'] == "left" )
-	{
-		foreach( $arOut as $value ){
-			$strSocialButtons .= $value;
-		}
-	}
-	else{
-		foreach( $arOut as $value ){
-			$strSocialButtons = $value.$strSocialButtons;
-		}
+		$strSocialButtons .= '<span class="korea-sns-button korea-sns-'.$snsKey.'">'.$loc.'</span>';
 	}
 
 	$last_execution = $filter;
+	if ($filter=='shortcode') return '<div class="korea-sns-shortcode">'.$strSocialButtons.'</div>';
 	
-	if ($filter=='shortcode')
-	{
-		return '<div class="korea-sns korea-sns-shortcode" style="min-width:300px;height:20px;">'.$strSocialButtons.'</div>';
-	}
-	else{
-		$out = '<div class="korea-sns" style="min-width:300px;height:24px;margin-top:20px;margin-bottom:10px;">'.$strSocialButtons.'</div>';
-	}
+	$classFloat = ($option['position_float'] == 'left') ? 'korea-sns-pos-left' : 'korea-sns-pos-right';
+	
+	$out = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtons.'</div><div style="clear:both;"></div></div>';
 	
 	if ($option['position']=='both') {
 		return $out.$content.$out;
@@ -332,7 +318,7 @@ function kon_tergos_options () {
 			</td></tr>
 			<tr><td>&nbsp;</td>
 			<td>
-				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakao Strory, Kakaotalk Link, Naver Line)
+				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakao Strory, Kakaotalk Link, Naver Line, Naver Band)
 			</td></tr>
 			<tr>
 				<td>'.__("Your Kakao App Key", 'menu-test' ).':</td>

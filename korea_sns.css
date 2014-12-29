@@ -1,0 +1,29 @@
+
+.korea-sns{
+	clear:both;
+	margin:20px 0 20px 0;
+}
+
+.korea-sns-post, korea-sns-shortcode{
+}
+
+.korea-sns-post{
+}
+
+.korea-sns-button{
+	margin-right:10px;
+}
+
+.korea-sns-pos-left{
+	
+}
+
+.korea-sns-pos-right{
+	float:right;
+}
+
+.korea-sns-button img{
+	width:32px;
+	height:32px;
+	border-radius:3px;
+}
