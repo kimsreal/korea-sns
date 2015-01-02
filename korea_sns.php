@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.2
+Version: 1.3
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -187,12 +187,19 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	
 	$out = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtons.'</div><div style="clear:both;"></div></div>';
 	
-	if ($option['position']=='both') {
-		return $out.$content.$out;
-	} else if ($option['position']=='below') {
+	if( is_single() || is_page() ){
+		switch( $option['position'] ){
+			case 'both':
+				return $out.$content.$out;
+			case 'above':
+				return $out.$content;
+			default:
+			case 'bellow':
+				return $content.$out;
+		}
+	}
+	else{	
 		return $content.$out;
-	} else {
-		return $out.$content;
 	}
 }
 

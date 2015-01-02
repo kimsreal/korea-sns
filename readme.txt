@@ -3,7 +3,7 @@ Contributors: Jongmyoung Kim
 Donate link: http://icansoft.com/?page_id=1041
 Tags: kakao, kakao talk, share, post, page, naver, line, facebook
 Requires at least: 3.0.1
-Tested up to: 3.4
+Tested up to: 4.0
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,12 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.2 =
 * Upgrade Kakaotalk API
 
+= 1.3 =
+* Add Naver Line.
+* Improved the button design.
+* Has been modified to use the images included in the plug-in for all the Share button.
+* The article lists a summary article has been modified only the bottom button is visible.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -64,5 +70,11 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.2 =
 * Upgrade Kakaotalk API
+
+= 1.3 =
+* Add Naver Line.
+* Improved the button design.
+* Has been modified to use the images included in the plug-in for all the Share button.
+* The article lists a summary article has been modified only the bottom button is visible.
 
 == Arbitrary section 1 ==
