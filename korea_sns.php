@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.3
+Version: 1.3.1
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -140,6 +140,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	foreach($option['active_buttons'] as $snsKey => $snsOpt ){
 		
 		if( !$snsOpt ) continue;
+		if( $snsKey == 'google1' ) continue;
 	
 		if( $option['mobile_only'] && !$bMobileClient &&
 				($snsKey=='kakaotalk' || $snsKey=='kakaostory' || $snsKey=='naverline' || $snsKey=='naverband')) continue;
@@ -393,7 +394,7 @@ function kon_tergos_get_options_stored () {
 
 function kon_tergos_get_options_default ($position='above') {
 	$option = array();
-	$option['active_buttons'] = array('facebook'=>true, 'twitter'=>true, 'google'=>false, 'kakaostory'=>true, 'kakaotalk'=>true, 'naverline'=>true, 'naverband'=>true);
+	$option['active_buttons'] = array('facebook'=>true, 'twitter'=>true, 'google'=>true, 'kakaostory'=>true, 'kakaotalk'=>true, 'naverline'=>true, 'naverband'=>true);
 	$option['position'] = $position;
 	$option['position_float'] = 'left';
 	$option['mobile_only'] = true;

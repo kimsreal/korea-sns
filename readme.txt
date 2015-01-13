@@ -57,6 +57,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 * Has been modified to use the images included in the plug-in for all the Share button.
 * The article lists a summary article has been modified only the bottom button is visible.
 
+= 1.3.1 =
+* Button to solve the problem that is output to the vertical
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -76,5 +79,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 * Improved the button design.
 * Has been modified to use the images included in the plug-in for all the Share button.
 * The article lists a summary article has been modified only the bottom button is visible.
+
+= 1.3.1 =
+* Button to solve the problem that is output to the vertical
 
 == Arbitrary section 1 ==
