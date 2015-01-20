@@ -7,6 +7,41 @@ function InitKakao(strKey){
 	}
 }
 
+function SendKakaostory(strKey, strUrl)
+{
+	InitKakao(strKey);
+	
+	Kakao.Auth.login({
+    success: function() {
+      Kakao.API.request( {
+        url : '/v1/api/story/linkinfo',
+        data : {
+          url : strUrl
+        }
+      }).then(function(res) {
+        return Kakao.API.request( {
+          url : '/v1/api/story/post/link',
+          data : {
+            link_info : res
+          }
+        });
+      }).then(function(res) {
+        return Kakao.API.request( {
+          url : '/v1/api/story/mystory',
+          data : { id : res.id }
+        });
+      }).then(function(res) {
+        alert("successfully Shared");
+      }, function (err) {
+        alert(JSON.stringify(err));
+      });
+    },
+    fail: function(err) {
+      alert(JSON.stringify(err));
+    }
+  });
+}
+
 function SendSNS(sns, title, url, image)
 {
     var o;

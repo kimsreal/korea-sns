@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.3.2
+Version: 1.4
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -143,16 +143,17 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 		if( $snsKey == 'google1' ) continue;
 	
 		if( $option['mobile_only'] && !$bMobileClient &&
-				($snsKey=='kakaotalk' || $snsKey=='kakaostory' || $snsKey=='naverline' || $snsKey=='naverband')) continue;
+				($snsKey=='kakaotalk' || $snsKey=='naverline' || $snsKey=='naverband')) continue;
 				
 		switch( $snsKey )
 		{
 			case 'kakaotalk':
-				$loc = '<a id="kakao-link-btn-'.get_the_ID().'" href="javascript:;">';	
-				$loc .= '<img style="display:inline" src="'.plugins_url( '/icons/kakaotalk.png', __FILE__ ).'" title="Smartphone support only">';
-				$loc .= '</a>';
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-link-btn-'.get_the_ID().'" ';
+				$loc .= ' OnClick="javascript:;" ';
+				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
+				$loc .= '</div>';
 				$loc .= "<script>
-			    InitKakao('".$option['kakao_app_key']."');
+			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
 			      container: '#kakao-link-btn-".get_the_ID()."',
 			      label: '".$title."', ";
@@ -164,21 +165,30 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				}
 					  
 			  $loc .= "webButton: {text: 'Read Post', url: '".$link."' }";
-			  $loc .= "}); </script>";
+			  $loc .= "}); </script> ";
 				break;
-				
+			
+			case 'kakaostory':
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-story-btn-'.get_the_ID().'" ';
+				$loc .= ' OnClick="SendKakaostory(\''.$option['kakao_app_key'].'\', \''.$eLink.'\')" ';
+				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
+				$loc .= '</div>';
+				break;
+					
 			case 'naverline':
-				$call = 'http://line.naver.jp/R/msg/text/?'.$eTitle.'%0D%0A'.$eLink;
-				$loc = '<a href="'.$call.'"><img style="display:inline" src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
+				$call = 'document.location.href=\'http://line.naver.jp/R/msg/text/?'.$eTitle.'%0D%0A'.$eLink.'\'';
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" OnClick="'.$call.'" ';
+				$loc .= ' style="background-image:url(\''.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'\');"></div>';	
 				break;
 				
 			default:
-				$call = "javascript:SendSNS('".$snsKey."', '".$title."', '".$eLink."', '');";
-				$loc = '<a href="'.$call.'"><img style="display:inline" src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
+				$call = "SendSNS('".$snsKey."', '".$title."', '".$eLink."', '');";
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" OnClick="'.$call.'" ';
+				$loc .= ' style="background-image:url(\''.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'\');"></div>';				
 				break;
 		}
-		
-		$strSocialButtons .= '<span class="korea-sns-button korea-sns-'.$snsKey.'">'.$loc.'</span>';
+				
+		$strSocialButtons .= $loc;
 	}
 
 	$last_execution = $filter;
@@ -326,7 +336,7 @@ function kon_tergos_options () {
 			</td></tr>
 			<tr><td>&nbsp;</td>
 			<td>
-				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakao Strory, Kakaotalk Link, Naver Line, Naver Band)
+				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk Link, Naver Line, Naver Band)
 			</td></tr>
 			<tr>
 				<td>'.__("Your Kakao App Key", 'menu-test' ).':</td>
@@ -337,7 +347,7 @@ function kon_tergos_options () {
 			<tr>
 				<td></td>
 				<td>
-					Since December 2014 the key to get the app can send KakaoTalk message.<br>
+					Since December 2014 the key to get the app can send KakaoTalk, Kakaostory message.<br>
 					 example : aab99ce45b777d799f2c1af7e5e37660 (32 Characters)<br>
 					<a href="http://icansoft.com/?p=1143" target="_blank">
 						Getting apps key from Kakao Developers

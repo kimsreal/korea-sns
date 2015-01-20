@@ -63,6 +63,11 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.3.2 =
 * Button to solve the problem that is output to the vertical (second update)
 
+= 1.4 =
+* Instead, we used a div img tag. (In order to minimize the effects of theme style)
+* Kakaostory Fixed an issue when you go to the store to share.
+* Kakaostory API upgraded to work on your PC. Since it does not modify the shares immediately before the commencement posts as traditional methods.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -88,5 +93,10 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.3.2 =
 * Button to solve the problem that is output to the vertical (second update)
+
+= 1.4 =
+* Instead, we used a div img tag. (In order to minimize the effects of theme style)
+* Kakaostory Fixed an issue when you go to the store to share.
+* Kakaostory API upgraded to work on your PC. Since it does not modify the shares immediately before the commencement posts as traditional methods.
 
 == Arbitrary section 1 ==
