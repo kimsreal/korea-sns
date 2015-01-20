@@ -60,6 +60,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.3.1 =
 * Button to solve the problem that is output to the vertical
 
+= 1.3.2 =
+* Button to solve the problem that is output to the vertical (second update)
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -82,5 +85,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.3.1 =
 * Button to solve the problem that is output to the vertical
+
+= 1.3.2 =
+* Button to solve the problem that is output to the vertical (second update)
 
 == Arbitrary section 1 ==

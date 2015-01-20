@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.3.1
+Version: 1.3.2
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -149,7 +149,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 		{
 			case 'kakaotalk':
 				$loc = '<a id="kakao-link-btn-'.get_the_ID().'" href="javascript:;">';	
-				$loc .= '<img src="'.plugins_url( '/icons/kakaotalk.png', __FILE__ ).'" title="Smartphone support only">';
+				$loc .= '<img style="display:inline" src="'.plugins_url( '/icons/kakaotalk.png', __FILE__ ).'" title="Smartphone support only">';
 				$loc .= '</a>';
 				$loc .= "<script>
 			    InitKakao('".$option['kakao_app_key']."');
@@ -169,12 +169,12 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				
 			case 'naverline':
 				$call = 'http://line.naver.jp/R/msg/text/?'.$eTitle.'%0D%0A'.$eLink;
-				$loc = '<a href="'.$call.'"><img src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
+				$loc = '<a href="'.$call.'"><img style="display:inline" src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
 				break;
 				
 			default:
 				$call = "javascript:SendSNS('".$snsKey."', '".$title."', '".$eLink."', '');";
-				$loc = '<a href="'.$call.'"><img src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
+				$loc = '<a href="'.$call.'"><img style="display:inline" src="'.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'" alt="Share on '.$snsKey.'"/></a>'; 
 				break;
 		}
 		
