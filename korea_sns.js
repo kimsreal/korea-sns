@@ -76,28 +76,6 @@ function SendSNS(sns, title, url, image)
                 width:600,
                 url:'https://plus.google.com/share?url={' + _url + '}'
             };
-            break;    
-            
-        case 'kakaotalk':
-            o = {
-                method:'web2app',
-                param:'sendurl?msg=' + _title + '&url=' + _url + '&type=link&apiver=2.0.1&appver=2.0&appid=icansoft.com&appname=' + encodeURIComponent('icansoft.com'),
-                a_store:'itms-apps://itunes.apple.com/app/id362057947?mt=8',
-                g_store:'market://details?id=com.kakao.talk',
-                a_proto:'kakaolink://',
-                g_proto:'scheme=kakaolink;package=com.kakao.talk'
-            };
-            break;
- 
-        case 'kakaostory':
-            o = {
-                method:'web2app',
-                param:'posting?post=' + _title + _br + _url + '&apiver=1.0&appver=2.0&appid=icansoft.com&appname=' + encodeURIComponent('icansoft.com'),
-                a_store:'itms-apps://itunes.apple.com/app/id486244601?mt=8',
-                g_store:'market://details?id=com.kakao.story',
-                a_proto:'storylink://',
-                g_proto:'scheme=kakaolink;package=com.kakao.story'
-            };
             break;
 					
         case 'naverband':
