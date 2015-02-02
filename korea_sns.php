@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.4.2
+Version: 1.4.3
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -125,6 +125,11 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	}
 	
 	$siteTitle = get_bloginfo('name');
+	
+	$title = strip_tags($title);
+	$siteTitle = strip_tags($title);
+	$title = str_replace("\"", " ", $title);	
+	$siteTitle = str_replace("\"", " ", $siteTitle);	
 	$title = str_replace("&#039;", "", $title);	
 	$siteTitle = str_replace("&#039;", "", $siteTitle);	
 	if (has_post_thumbnail()){ 	
@@ -136,6 +141,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	$eTitle = urlencode($title);
 	$eSiteTitle = urlencode($siteTitle);
 	$eThumnailUrl = urlencode($thumnailUrl);
+	$bPosBoth = ( $option['position'] == 'both') ? 1 : 0;
 	
 	foreach($option['active_buttons'] as $snsKey => $snsOpt ){
 		
@@ -148,15 +154,15 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 		switch( $snsKey )
 		{
 			case 'kakaotalk':
-				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-link-btn-'.get_the_ID().'" ';
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-link-btn-[_POST_ID_]" ';
 				$loc .= ' OnClick="javascript:;" ';
 				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
 				$loc .= '</div>';
 				
-				$locKakaotalk = "<p><script>
+				$locKakaotalk = "<script>
 			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
-			      container: '#kakao-link-btn-".get_the_ID()."',
+			      container: '#kakao-link-btn-[_POST_ID_]',
 			      label: '".$title."', ";
 			      
 			  if (has_post_thumbnail()){ 	
@@ -165,11 +171,11 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				}
 					  
 			  $locKakaotalk .= "webButton: {text: 'Read Post', url: '".$link."' }";
-			  $locKakaotalk .= "}); </script></p> ";
+			  $locKakaotalk .= "}); </script> ";	  
 				break;
 			
 			case 'kakaostory':
-				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-story-btn-'.get_the_ID().'" ';
+				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-story-btn-[_POST_ID_]" ';
 				$loc .= ' OnClick="SendKakaostory(\''.$option['kakao_app_key'].'\', \''.$link.'\')" ';
 				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
 				$loc .= '</div>';
@@ -192,18 +198,21 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	}
 	
 	$strSocialButtons .= $locKakaotalk;
+	$strSocialButtonsFirst = str_replace('[_POST_ID_]', get_the_ID().'-1', $strSocialButtons);
 
 	$last_execution = $filter;
-	if ($filter=='shortcode') return '<div class="korea-sns-shortcode">'.$strSocialButtons.'</div>';
+	if ($filter=='shortcode') return '<div class="korea-sns-shortcode">'.$strSocialButtonsFirst.'</div>';
 	
 	$classFloat = ($option['position_float'] == 'left') ? 'korea-sns-pos-left' : 'korea-sns-pos-right';
 	
-	$out = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtons.'</div><div style="clear:both;"></div></div>';
+	$out = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtonsFirst.'</div><div style="clear:both;"></div></div>';
 	
 	if( is_single() || is_page() ){
 		switch( $option['position'] ){
 			case 'both':
-				return $out.$content.$out;
+				$strSocialButtonsSecond = str_replace('[_POST_ID_]', get_the_ID().'-2', $strSocialButtons);
+				$out2 = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtonsSecond.'</div><div style="clear:both;"></div></div>';
+				return $out.$content.$out2;
 			case 'above':
 				return $out.$content;
 			default:
@@ -338,18 +347,18 @@ function kon_tergos_options () {
 			</td></tr>
 			<tr><td>&nbsp;</td>
 			<td>
-				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk Link, Naver Line, Naver Band)
+				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk, Naver Line, Naver Band)
 			</td></tr>
 			<tr>
 				<td>'.__("Your Kakao App Key", 'menu-test' ).':</td>
 				<td>
-					<input type="text" name="kk_appkey" size="32" value="'.$option['kakao_app_key'].'">
+					<input type="text" name="kk_appkey" size="40" value="'.$option['kakao_app_key'].'">
 				</td>
 			</tr>
 			<tr>
 				<td></td>
 				<td>
-					Since December 2014 the key to get the app can send KakaoTalk, Kakaostory message.<br>
+					Since December 2014 the key to get the app can send Kakaotalk, Kakaostory message.<br>
 					 example : aab99ce45b777d799f2c1af7e5e37660 (32 Characters)<br>
 					<a href="http://icansoft.com/?p=1143" target="_blank">
 						Getting apps key from Kakao Developers
@@ -365,7 +374,7 @@ function kon_tergos_options () {
 		</p>
 		
 		<p>
-			<a href="http://icansoft.com" target="_blank">Go Korea SNS Homepage</a>
+			<a href="http://icansoft.com/?page_id=1041" target="_blank">Go Korea SNS Homepage</a>
 		</p>
 		<p>
 			<a href="http://facebook.com/groups/koreasns" target="_blank">Go Support Forum (facebook group)</a>

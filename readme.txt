@@ -75,6 +75,10 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.2 =
 * Double-byte characters, solves problems when sharing a link to a URL that includes Twitter, Kakaostory and Naver Band.
 
+= 1.4.3 =
+* If you set the position in both Fixed an issue where the bottom Kakaotalk button does not work.
+* If you include the quotes in the article title tags and Fixed an error that occurred.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -112,5 +116,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.2 =
 * Double-byte characters, solves problems when sharing a link to a URL that includes Twitter, Kakaostory and Naver Band.
+
+= 1.4.3 =
+* If you set the position in both Fixed an issue where the bottom Kakaotalk button does not work.
+* If you include the quotes in the article title tags and Fixed an error that occurred.
 
 == Arbitrary section 1 ==
