@@ -16,8 +16,8 @@ You can Insert share buttons in contents post or page.
 The post can be inserted into the button information, information before, after, or during you.
 You can set the plug-in settings page before, is inserted after the selection.
 If you enter a short code in the article is my content is inserted as follows: [korea_sns_button]
-Screenshot : See Plugin Folder's "screenshot.png"
 More info : http://icansoft.com/?page_id=1062
+Support Forum : http://facebook.com/groups/koreasns
 
 == Installation ==
 
@@ -79,6 +79,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 * If you set the position in both Fixed an issue where the bottom Kakaotalk button does not work.
 * If you include the quotes in the article title tags and Fixed an error that occurred.
 
+= 1.4.4 =
+* Added a center alignment option.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -120,5 +123,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.3 =
 * If you set the position in both Fixed an issue where the bottom Kakaotalk button does not work.
 * If you include the quotes in the article title tags and Fixed an error that occurred.
+
+= 1.4.4 =
+* Added a center alignment option.
 
 == Arbitrary section 1 ==

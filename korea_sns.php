@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.4.3
+Version: 1.4.4
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -56,7 +56,7 @@ function kon_tergos_add_settings_link($links, $file) {
 		array_unshift($links, $settings_link);
 	}
 	return $links;
-} 
+}
 
 function kon_tergos_content ($content) {
 	return kon_tergos ($content, 'the_content');
@@ -203,7 +203,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	$last_execution = $filter;
 	if ($filter=='shortcode') return '<div class="korea-sns-shortcode">'.$strSocialButtonsFirst.'</div>';
 	
-	$classFloat = ($option['position_float'] == 'left') ? 'korea-sns-pos-left' : 'korea-sns-pos-right';
+	$classFloat = 'korea-sns-pos-'.$option['position_float'];
 	
 	$out = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtonsFirst.'</div><div style="clear:both;"></div></div>';
 	
@@ -281,6 +281,7 @@ function kon_tergos_options () {
 	$sel_both  = ($option['position']=='both' ) ? 'selected="selected"' : '';
 	
 	$float_left = ($option['position_float']=='left') ? 'selected="selected"' : '';
+	$float_center = ($option['position_float']=='center') ? 'selected="selected"' : '';
 	$float_right = ($option['position_float']=='right') ? 'selected="selected"' : '';
 
 	$sel_like      = ($option['facebook_like_text']=='like'     ) ? 'selected="selected"' : '';
@@ -342,6 +343,7 @@ function kon_tergos_options () {
 			<td>
 				<select name="kon_tergos_position_float">
 				<option value="left" '.$float_left.' > '.__('left', 'menu-test' ).'</option><br>
+				<option value="center" '.$float_center.' > '.__('center', 'menu-test' ).'</option><br>
 				<option value="right" '.$float_right.' > '.__('right', 'menu-test' ).'</option>
 				</select>
 			</td></tr>
