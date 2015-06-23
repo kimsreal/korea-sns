@@ -121,24 +121,31 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	
 	if ($link=='' || $title=='') {
 		$link = get_permalink();
-		$title = get_the_title()." - ".get_bloginfo('name');
+		$title = get_the_title();
+		$titleFull = get_the_title()." - ".get_bloginfo('name');
 	}
 	
 	$siteTitle = get_bloginfo('name');
 	
 	$title = strip_tags($title);
-	$siteTitle = strip_tags($title);
+	$siteTitle = strip_tags($siteTitle);
+	$titleFull = strip_tags($titleFull);
+	
 	$title = str_replace("\"", " ", $title);	
-	$siteTitle = str_replace("\"", " ", $siteTitle);	
+	$siteTitle = str_replace("\"", " ", $siteTitle);
+	$titleFull = str_replace("\"", " ", $titleFull);	
+	
 	$title = str_replace("&#039;", "", $title);	
 	$siteTitle = str_replace("&#039;", "", $siteTitle);	
+	$titleFull = str_replace("&#039;", "", $titleFull);	
+	
 	if (has_post_thumbnail()){ 	
 		$domsxe = simplexml_load_string(get_the_post_thumbnail());
 		$thumnailUrl = $domsxe->attributes()->src;
 	}
 	
 	$eLink = urlencode($link);
-	$eTitle = urlencode($title);
+	$eTitle = urlencode($titleFull);
 	$eSiteTitle = urlencode($siteTitle);
 	$eThumnailUrl = urlencode($thumnailUrl);
 	$bPosBoth = ( $option['position'] == 'both') ? 1 : 0;
@@ -159,18 +166,22 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
 				$loc .= '</div>';
 				
+				$strKakaotalkMessageTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $title : $titleFull;
 				$locKakaotalk = "<script>
 			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
 			      container: '#kakao-link-btn-[_POST_ID_]',
-			      label: '".$title."', ";
+			      label: '".$strKakaotalkMessageTitle."', ";
 			      
 			  if (has_post_thumbnail()){ 	
 			  	$domsxe = simplexml_load_string(get_the_post_thumbnail());
 					$locKakaotalk .= "image: {src: encodeURI('".$domsxe->attributes()->src."'), width: '300', height: '200'},";
 				}
+				
+				$strAppTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $siteTitle : $option['kakaotalk_title_text'];
+				if( $strAppTitle == "" ){  $strAppTitle = "Read more..."; }
 					  
-			  $locKakaotalk .= "webButton: {text: 'Read Post', url: '".$link."' }";
+			  $locKakaotalk .= "webButton: {text: '".$strAppTitle."', url: '".$link."' }";
 			  $locKakaotalk .= "}); </script> ";	  
 				break;
 			
@@ -188,7 +199,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				break;
 				
 			default:
-				$call = "SendSNS('".$snsKey."', '".$title."', '".$link."', '');";
+				$call = "SendSNS('".$snsKey."', '".$titleFull."', '".$link."', '');";
 				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" OnClick="'.$call.'" ';
 				$loc .= ' style="background-image:url(\''.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'\');"></div>';				
 				break;
@@ -269,6 +280,8 @@ function kon_tergos_options () {
 		$option['position_float'] = esc_html($_POST['kon_tergos_position_float']);
 		$option['mobile_only'] = esc_html($_POST['kon_tergos_mobile_only']);
 		$option['kakao_app_key'] = esc_html($_POST['kk_appkey']);
+		$option['kakaotalk_title_type'] = esc_html($_POST['kkt_title_type']);
+		$option['kakaotalk_title_text'] = esc_html($_POST['kkt_title_text']);
 		
 		update_option($option_name, $option);
 		$out .= '<div class="updated"><p><strong>'.__('Settings saved.', 'menu-test' ).'</strong></p></div>';
@@ -280,113 +293,167 @@ function kon_tergos_options () {
 	$sel_below = ($option['position']=='below') ? 'selected="selected"' : '';
 	$sel_both  = ($option['position']=='both' ) ? 'selected="selected"' : '';
 	
-	$float_left = ($option['position_float']=='left') ? 'selected="selected"' : '';
-	$float_center = ($option['position_float']=='center') ? 'selected="selected"' : '';
-	$float_right = ($option['position_float']=='right') ? 'selected="selected"' : '';
+	$sel_float_left = ($option['position_float']=='left') ? 'selected="selected"' : '';
+	$sel_float_center = ($option['position_float']=='center') ? 'selected="selected"' : '';
+	$sel_float_right = ($option['position_float']=='right') ? 'selected="selected"' : '';
 
 	$sel_like      = ($option['facebook_like_text']=='like'     ) ? 'selected="selected"' : '';
 	$sel_recommend = ($option['facebook_like_text']=='recommend') ? 'selected="selected"' : '';
 	
 	$check_mobile_only = ($option['mobile_only']==true) ? 'checked' : '';
 	
+	$sel_kakaotalk_title_type_sitename = ($option['kakaotalk_title_type']=='1') ? 'selected="selected"' : '';
+	$sel_kakaotalk_title_type_text = ($option['kakaotalk_title_type']=='2') ? 'selected="selected"' : '';
+	$styleKakaotalkTitleText = ($option['kakaotalk_title_type']=='1') ? 'display:none;' : 'display:inline;';
 
-	$out .= '
+	?>
+	
 	<style>
-	#kon_tergos_form h3 { cursor: default; }
-	#kon_tergos_form td { vertical-align:top; padding-bottom:15px; }
+		#kon_tergos_form h3 { cursor: default; }
+		#kon_tergos_form td { vertical-align:top; padding-bottom:15px; }
 	</style>
 	
 	<div class="wrap">
-	<h2>'.__( 'Korea SNS', 'menu-test' ).'</h2>
-	<div id="poststuff" style="padding-top:10px; position:relative;">
-
-	<div>
-
-		<form id="kon_tergos_form" name="form1" method="post" action="">
-
-		<div class="postbox">
-		<h3>'.__("General options", 'menu-test' ).'</h3>
-		<div class="inside">
-			<table>
-			<tr><td style="width:130px;">'.__("Active share buttons", 'menu-test' ).':</td>
-			<td>';
-		
-			foreach ($active_buttons as $name => $text) {
-				$checked = ($option['active_buttons'][$name]) ? 'checked="checked"' : '';
-				$out .= '<div style="width:250px;">
-						<input type="checkbox" name="kon_tergos_active_'.$name.'" '.$checked.' /> '
-						. __($text, 'menu-test' ).' &nbsp;&nbsp;</div>';
-
-			}
-
-			$out .= '</td></tr>
-			<tr><td>'.__("Show buttons in these pages", 'menu-test' ).':</td>
-			<td>';
-
-			foreach ($show_in as $name => $text) {
-				$checked = ($option['show_in'][$name]) ? 'checked="checked"' : '';
-				$out .= '<div style="width:250px;">
-						<input type="checkbox" name="kon_tergos_show_'.$name.'" '.$checked.' /> '
-						. __($text, 'menu-test' ).' &nbsp;&nbsp;</div>';
-			}
-
-			$out .= '</td></tr>
-			<tr><td>'.__("Position", 'menu-test' ).':</td>
-			<td><select name="kon_tergos_position">
-				<option value="above" '.$sel_above.' > '.__('Top', 'menu-test' ).'</option>
-				<option value="below" '.$sel_below.' > '.__('Bottom', 'menu-test' ).'</option>
-				<option value="both"  '.$sel_both.'  > '.__('Both', 'menu-test' ).'</option>
-				</select>
-			</td>
-			</tr>
-			<tr><td>&nbsp;</td>
-			<td>
-				<select name="kon_tergos_position_float">
-				<option value="left" '.$float_left.' > '.__('left', 'menu-test' ).'</option><br>
-				<option value="center" '.$float_center.' > '.__('center', 'menu-test' ).'</option><br>
-				<option value="right" '.$float_right.' > '.__('right', 'menu-test' ).'</option>
-				</select>
-			</td></tr>
-			<tr><td>&nbsp;</td>
-			<td>
-				<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk, Naver Line, Naver Band)
-			</td></tr>
-			<tr>
-				<td>'.__("Your Kakao App Key", 'menu-test' ).':</td>
-				<td>
-					<input type="text" name="kk_appkey" size="40" value="'.$option['kakao_app_key'].'">
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					Since December 2014 the key to get the app can send Kakaotalk, Kakaostory message.<br>
-					 example : aab99ce45b777d799f2c1af7e5e37660 (32 Characters)<br>
-					<a href="http://icansoft.com/?p=1143" target="_blank">
-						Getting apps key from Kakao Developers
-					</a>
-				</td>
-			</tr>
-			</table>
+		<div style="display:table;width:100%;">
+			<h2 style="float:left;"><?php echo __( 'Korea SNS', 'menu-test' ); ?></h2>
+			<span style="float:right;">
+				<a href="http://icansoft.com/?page_id=1041" target="_blank">Go Korea SNS Homepage</a> <b>|</b>
+				<a href="http://facebook.com/groups/koreasns" target="_blank">Go Support Forum (facebook group)</a>
+			</span>
 		</div>
+		
+		<div id="poststuff" style="padding-top:10px; position:relative;">
+		<div>
+			<form id="kon_tergos_form" name="form1" method="post" action="">
+	
+			<div class="postbox">
+			<h3><?php echo __("General options", 'menu-test' ); ?></h3>
+			<div class="inside">
+				<table>
+					<tr>
+						<td style="width:130px;">
+							<?php echo __("Active share buttons", 'menu-test' ); ?>:
+						</td>
+						<td>
+							<?php 
+								foreach ($active_buttons as $name => $text) {
+									$checked = ($option['active_buttons'][$name]) ? 'checked="checked"' : '';
+									?>
+										<div style="width:250px;">
+											<input type="checkbox" name="kon_tergos_active_<?php echo $name; ?>" <?php echo $checked; ?> />
+											<?php echo __($text, 'menu-test' ); ?>
+											&nbsp;&nbsp;</div>
+									<?php
+								}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo __("Show buttons in these pages", 'menu-test' ); ?>:</td>
+						<td>
+							<?php
+								foreach ($show_in as $name => $text) {
+									$checked = ($option['show_in'][$name]) ? 'checked="checked"' : '';
+									?>
+										<div style="width:250px;">
+											<input type="checkbox" name="kon_tergos_show_<?php echo $name; ?>" <?php echo $checked; ?> />
+												<?php echo __($text, 'menu-test' ); ?>
+											&nbsp;&nbsp;
+										</div>
+									<?php
+								}
+							?>
+	
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo __("Position", 'menu-test' ); ?>:</td>
+						<td>
+							<select name="kon_tergos_position">
+								<option value="above" <?php echo $sel_above; ?>> <?php echo __('Top', 'menu-test' ); ?></option>
+								<option value="below" <?php echo $sel_below; ?>> <?php echo __('Bottom', 'menu-test' ); ?></option>
+								<option value="both"  <?php echo $sel_both; ?>> <?php echo __('Both', 'menu-test' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							<select name="kon_tergos_position_float">
+								<option value="left" <?php echo $sel_float_left; ?>> <?php echo __('left', 'menu-test' ); ?></option>
+								<option value="center" <?php echo $sel_float_center; ?>> <?php echo __('center', 'menu-test' ); ?></option>
+								<option value="right" <?php echo $sel_float_right; ?>> <?php echo __('right', 'menu-test' ); ?></option>
+							</select>
+					</td></tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk, Naver Line, Naver Band)
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo __("Your Kakao App Key", 'menu-test' ); ?>:</td>
+						<td>
+							<input type="text" name="kk_appkey" size="40" value="<?php echo $option['kakao_app_key']; ?>">
+							<br/>
+							Since December 2014 the key to get the app can send Kakaotalk, Kakaostory message.<br>
+							 example : aab99ce45b777d799f2c1af7e5e37660 (32 Characters)<br/>
+							<a href="http://icansoft.com/?p=1143" target="_blank">
+								Getting apps key from Kakao Developers
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo __("Kakaotalk Icon Title", 'menu-test' ); ?>:</td>
+						<td>
+							<select name="kkt_title_type" id="kakaotalk_title_type_select">
+							<option value="1" <?php echo $sel_kakaotalk_title_type_sitename; ?>><?php echo __('Your Site Name', 'menu-test' ); ?></option><br>
+							<option value="2" <?php echo $sel_kakaotalk_title_type_text; ?>><?php echo __('Direct Input', 'menu-test' ); ?></option><br>
+							</select>
+							<input type="text" id="kakaotalk_title_text" name="kkt_title_text" id="kakaotalk_title_text" size="50"
+								value="<?php echo $option['kakaotalk_title_text'] ?>" style="<?php echo $styleKakaotalkTitleText; ?>" />
+							<br/>
+							Set the right character of apps icons.
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							App icon image can be changed.<br/>
+							<a href="http://icansoft.com/?p=1258" target="_blank">
+								How to change the app icon image
+							</a>
+						</td>
+					</tr>				
+				</table>
+			</div>
 		</div>
 
 		<p class="submit">
-			<input type="submit" name="Submit" class="button-primary" value="'.esc_attr('Save Changes').'" />
-		</p>
-		
-		<p>
-			<a href="http://icansoft.com/?page_id=1041" target="_blank">Go Korea SNS Homepage</a>
-		</p>
-		<p>
-			<a href="http://facebook.com/groups/koreasns" target="_blank">Go Support Forum (facebook group)</a>
+			<input type="submit" name="Submit" class="button-primary" value="<?php echo esc_attr('Save Changes'); ?>" />
 		</p>
 		</form>
 	</div>
 	</div>
 	</div>
-	';
-	echo $out;
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {			
+			$("#kakaotalk_title_type_select").change(function(){
+				if( $("#kakaotalk_title_type_select option:selected").val() == "1" ){
+					$("#kakaotalk_title_text").css("display", "none");
+				}
+				else{
+					$("#kakaotalk_title_text").css("display", "inline");
+					
+					if( $("#kakaotalk_title_text").val() == "" ){
+						$("#kakaotalk_title_text").val("Read more...");
+					}
+				}
+			});
+		});
+	</script>
+	<?php
 }
 
 function kon_tergos_shortcode ($atts) {
@@ -426,6 +493,8 @@ function kon_tergos_get_options_default ($position='above') {
 	$option['mobile_only'] = true;
 	$option['show_in'] = array('posts'=>true, 'pages'=>true, 'home_page'=>false, 'tags'=>true, 'categories'=>true, 'dates'=>true, 'authors'=>true, 'search'=>true);
 	$option['kakao_app_key'] = '';
+	$option['kakaotalk_title_type'] = '1';
+	$option['kakaotalk_title_text'] = 'Read Post';
 	
 	return $option;
 }
