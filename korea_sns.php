@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: Share post to SNS
 Author: Jongmyoung Kim 
-Version: 1.4.4
+Version: 1.4.5
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -122,22 +122,16 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	if ($link=='' || $title=='') {
 		$link = get_permalink();
 		$title = get_the_title();
-		$titleFull = get_the_title()." - ".get_bloginfo('name');
 	}
 	
-	$siteTitle = get_bloginfo('name');
-	
 	$title = strip_tags($title);
-	$siteTitle = strip_tags($siteTitle);
-	$titleFull = strip_tags($titleFull);
-	
-	$title = str_replace("\"", " ", $title);	
-	$siteTitle = str_replace("\"", " ", $siteTitle);
-	$titleFull = str_replace("\"", " ", $titleFull);	
-	
+	$title = str_replace("\"", " ", $title);
 	$title = str_replace("&#039;", "", $title);	
+	
+	$siteTitle = get_bloginfo('name');
+	$siteTitle = strip_tags($siteTitle);
+	$siteTitle = str_replace("\"", " ", $siteTitle);
 	$siteTitle = str_replace("&#039;", "", $siteTitle);	
-	$titleFull = str_replace("&#039;", "", $titleFull);	
 	
 	if (has_post_thumbnail()){ 	
 		$domsxe = simplexml_load_string(get_the_post_thumbnail());
@@ -145,7 +139,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	}
 	
 	$eLink = urlencode($link);
-	$eTitle = urlencode($titleFull);
+	$eTitle = urlencode($title." - ".$siteTitle);
 	$eSiteTitle = urlencode($siteTitle);
 	$eThumnailUrl = urlencode($thumnailUrl);
 	$bPosBoth = ( $option['position'] == 'both') ? 1 : 0;
@@ -166,7 +160,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
 				$loc .= '</div>';
 				
-				$strKakaotalkMessageTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $title : $titleFull;
+				$strKakaotalkMessageTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $title : $title." - ".$siteTitle;
 				$locKakaotalk = "<script>
 			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
@@ -175,7 +169,11 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 			      
 			  if (has_post_thumbnail()){ 	
 			  	$domsxe = simplexml_load_string(get_the_post_thumbnail());
-					$locKakaotalk .= "image: {src: encodeURI('".$domsxe->attributes()->src."'), width: '300', height: '200'},";
+			  	$thumbnailID = get_post_thumbnail_id();
+					$arThumbnailRect = wp_get_attachment_image_src( $thumbnailID, 'thumbnail' );
+					$thumbnailWidth = $arThumbnailRect[1];
+					$thumbnailHeight = $arThumbnailRect[2];
+					$locKakaotalk .= "image: {src: encodeURI('".$domsxe->attributes()->src."'), width: '".$thumbnailWidth."', height: '".$thumbnailHeight."'},";
 				}
 				
 				$strAppTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $siteTitle : $option['kakaotalk_title_text'];
@@ -199,7 +197,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				break;
 				
 			default:
-				$call = "SendSNS('".$snsKey."', '".$titleFull."', '".$link."', '');";
+				$call = "SendSNS('".$snsKey."', '".$title." - ".$siteTitle."', '".$link."', '');";
 				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" OnClick="'.$call.'" ';
 				$loc .= ' style="background-image:url(\''.plugins_url('/icons/'.$snsKey.'.png', __FILE__ ).'\');"></div>';				
 				break;

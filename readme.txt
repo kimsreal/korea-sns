@@ -82,6 +82,10 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.4 =
 * Added a center alignment option.
 
+= 1.4.5 =
+* The ability to change the icon title of KakaoTalk message has been added.
+* When you send a message KakaoTalk has been enhanced to maintain the ratio of the thumbnail images.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -126,5 +130,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.4 =
 * Added a center alignment option.
+
+= 1.4.5 =
+* The ability to change the icon title of KakaoTalk message has been added.
+* When you send a message KakaoTalk has been enhanced to maintain the ratio of the thumbnail images.
 
 == Arbitrary section 1 ==
