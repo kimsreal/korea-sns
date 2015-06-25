@@ -2,9 +2,9 @@
 /* 
 Plugin Name: Korea SNS 
 Plugin URI: http://icansoft.com/?page_id=1041
-Description: Share post to SNS
+Description: You can Insert share buttons for korean in contents post or page. - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band ---> <a href="http://icansoft.com/?page_id=1041">Plugin Page</a> | <a href="http://facebook.com/groups/koreasns">Support</a>
 Author: Jongmyoung Kim 
-Version: 1.4.5
+Version: 1.4.6
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -133,15 +133,9 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	$siteTitle = str_replace("\"", " ", $siteTitle);
 	$siteTitle = str_replace("&#039;", "", $siteTitle);	
 	
-	if (has_post_thumbnail()){ 	
-		$domsxe = simplexml_load_string(get_the_post_thumbnail());
-		$thumnailUrl = $domsxe->attributes()->src;
-	}
-	
 	$eLink = urlencode($link);
 	$eTitle = urlencode($title." - ".$siteTitle);
 	$eSiteTitle = urlencode($siteTitle);
-	$eThumnailUrl = urlencode($thumnailUrl);
 	$bPosBoth = ( $option['position'] == 'both') ? 1 : 0;
 	
 	foreach($option['active_buttons'] as $snsKey => $snsOpt ){
@@ -168,12 +162,18 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 			      label: '".$strKakaotalkMessageTitle."', ";
 			      
 			  if (has_post_thumbnail()){ 	
-			  	$domsxe = simplexml_load_string(get_the_post_thumbnail());
 			  	$thumbnailID = get_post_thumbnail_id();
-					$arThumbnailRect = wp_get_attachment_image_src( $thumbnailID, 'thumbnail' );
-					$thumbnailWidth = $arThumbnailRect[1];
-					$thumbnailHeight = $arThumbnailRect[2];
-					$locKakaotalk .= "image: {src: encodeURI('".$domsxe->attributes()->src."'), width: '".$thumbnailWidth."', height: '".$thumbnailHeight."'},";
+					$arThumbnailInfo = wp_get_attachment_image_src( $thumbnailID, 'full' );
+					$thumbnailURL = $arThumbnailInfo[0];
+					$thumbnailWidth = $arThumbnailInfo[1];
+					$thumbnailHeight = $arThumbnailInfo[2];
+					
+					if( $thumbnailWidth < 80 || $thumbnailHeight < 80 ){
+						$thumbnailWidth = 80;
+						$thumbnailHeight = 80;
+					}
+					
+					$locKakaotalk .= "image: {src: encodeURI('".$thumbnailURL."'), width: '".$thumbnailWidth."', height: '".$thumbnailHeight."'},";
 				}
 				
 				$strAppTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $siteTitle : $option['kakaotalk_title_text'];

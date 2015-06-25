@@ -12,11 +12,12 @@ Puts Korea social share buttons in post or page.
 
 == Description ==
 
-You can Insert share buttons in contents post or page.
+You can Insert share buttons for korean in contents post or page.
+Share Buttons - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band
 The post can be inserted into the button information, information before, after, or during you.
 You can set the plug-in settings page before, is inserted after the selection.
 If you enter a short code in the article is my content is inserted as follows: [korea_sns_button]
-More info : http://icansoft.com/?page_id=1062
+More info : http://icansoft.com/?page_id=1041
 Support Forum : http://facebook.com/groups/koreasns
 
 == Installation ==
@@ -86,6 +87,10 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 * The ability to change the icon title of KakaoTalk message has been added.
 * When you send a message KakaoTalk has been enhanced to maintain the ratio of the thumbnail images.
 
+= 1.4.6 =
+* If the image is too small for KakaoTalk message (horizontally or vertically, or if less than 80 pixels) Fixed an error that occurred.
+* The image rate of KakaoTalk message Fixed an issue that is not reflected correctly.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -134,5 +139,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.5 =
 * The ability to change the icon title of KakaoTalk message has been added.
 * When you send a message KakaoTalk has been enhanced to maintain the ratio of the thumbnail images.
+
+= 1.4.6 =
+* If the image is too small for KakaoTalk message (horizontally or vertically, or if less than 80 pixels) Fixed an error that occurred.
+* The image rate of KakaoTalk message Fixed an issue that is not reflected correctly.
 
 == Arbitrary section 1 ==
