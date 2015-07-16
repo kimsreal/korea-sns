@@ -91,6 +91,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 * If the image is too small for KakaoTalk message (horizontally or vertically, or if less than 80 pixels) Fixed an error that occurred.
 * The image rate of KakaoTalk message Fixed an issue that is not reflected correctly.
 
+= 1.4.7 =
+* Kakaostory preview creation through share this became possible when a pop-up window with comments.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -143,5 +146,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.6 =
 * If the image is too small for KakaoTalk message (horizontally or vertically, or if less than 80 pixels) Fixed an error that occurred.
 * The image rate of KakaoTalk message Fixed an issue that is not reflected correctly.
+
+= 1.4.7 =
+* Kakaostory preview creation through share this became possible when a pop-up window with comments.
 
 == Arbitrary section 1 ==

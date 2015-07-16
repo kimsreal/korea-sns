@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: You can Insert share buttons for korean in contents post or page. - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band ---> <a href="http://icansoft.com/?page_id=1041">Plugin Page</a> | <a href="http://facebook.com/groups/koreasns">Support</a>
 Author: Jongmyoung Kim 
-Version: 1.4.6
+Version: 1.4.7
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -38,7 +38,7 @@ function kon_tergos_init() {
 
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kakao_sdk', 'https://developers.kakao.com/sdk/js/kakao.min.js');
-	wp_enqueue_script('koreasns_js', plugins_url( 'korea_sns.js', __FILE__ ));
+	wp_enqueue_script('koreasns_js', plugins_url( 'korea_sns_147.js', __FILE__ ));
 	wp_register_style( 'koreasns_css', plugins_url('korea_sns.css', __FILE__) );
 	wp_enqueue_style( 'koreasns_css' );
 }
@@ -145,7 +145,9 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	
 		if( $option['mobile_only'] && !$bMobileClient &&
 				($snsKey=='kakaotalk' || $snsKey=='naverline' || $snsKey=='naverband')) continue;
-				
+		
+		$locKakaotalk = "";
+		
 		switch( $snsKey )
 		{
 			case 'kakaotalk':
@@ -155,7 +157,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				$loc .= '</div>';
 				
 				$strKakaotalkMessageTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $title : $title." - ".$siteTitle;
-				$locKakaotalk = "<script>
+				$locKakaotalk .= "<script>
 			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
 			      container: '#kakao-link-btn-[_POST_ID_]',
@@ -185,7 +187,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 			
 			case 'kakaostory':
 				$loc = '<div class="korea-sns-button korea-sns-'.$snsKey.'" id="kakao-story-btn-[_POST_ID_]" ';
-				$loc .= ' OnClick="SendKakaostory(\''.$option['kakao_app_key'].'\', \''.$link.'\')" ';
+				$loc .= ' OnClick="ShareKakaostory(\''.$option['kakao_app_key'].'\', \''.$link.'\', \''.$title.'\')" ';
 				$loc .= ' style="background-image:url(\''.plugins_url( '/icons/'.$snsKey.'.png', __FILE__ ).'\');">';	
 				$loc .= '</div>';
 				break;
