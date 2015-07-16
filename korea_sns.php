@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: You can Insert share buttons for korean in contents post or page. - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band ---> <a href="http://icansoft.com/?page_id=1041">Plugin Page</a> | <a href="http://facebook.com/groups/koreasns">Support</a>
 Author: Jongmyoung Kim 
-Version: 1.4.7
+Version: 1.4.8
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -145,9 +145,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	
 		if( $option['mobile_only'] && !$bMobileClient &&
 				($snsKey=='kakaotalk' || $snsKey=='naverline' || $snsKey=='naverband')) continue;
-		
-		$locKakaotalk = "";
-		
+				
 		switch( $snsKey )
 		{
 			case 'kakaotalk':
@@ -157,7 +155,7 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 				$loc .= '</div>';
 				
 				$strKakaotalkMessageTitle = ( $option['kakaotalk_title_type'] == '1' ) ? $title : $title." - ".$siteTitle;
-				$locKakaotalk .= "<script>
+				$locKakaotalk = "<script>
 			    InitKakao('".$option['kakao_app_key']."');    
 			    Kakao.Link.createTalkLinkButton({
 			      container: '#kakao-link-btn-[_POST_ID_]',

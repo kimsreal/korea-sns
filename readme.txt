@@ -94,6 +94,9 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.7 =
 * Kakaostory preview creation through share this became possible when a pop-up window with comments.
 
+= 1.4.8 =
+* Fixed an error in v1.4.7 of KakaoTalk button.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -149,5 +152,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.7 =
 * Kakaostory preview creation through share this became possible when a pop-up window with comments.
+
+= 1.4.8 =
+* Fixed an error in v1.4.7 of KakaoTalk button.
 
 == Arbitrary section 1 ==
