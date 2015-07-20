@@ -36,7 +36,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 1. Korea social share buttons.
 2. Options
-3. goto http://icansoft.com/?page_id=1062 for more information.
+3. goto http://icansoft.com/?page_id=1041 for more information.
+4. Kakaostory
 
 == Changelog ==
 
