@@ -41,9 +41,6 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 == Changelog ==
 
-= 1.0 =
-* first plugin
-
 = 1.1 =
 * When the title may contain quotes errors when attempting resolve kakaotalk Share. Troubleshooting do not share the characteristics that image post on KakaoStory problem
 
@@ -97,12 +94,12 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.8 =
 * Fixed an error in v1.4.7 of KakaoTalk button.
+
+= 1.4.9 =
+* Fixed a problem this option is not kept hidden mobile.
 
 == Upgrade Notice ==
 
-= 1.0 =
-* first plugin
-
 = 1.1 =
 * When the title may contain quotes errors when attempting resolve kakaotalk Share. Troubleshooting do not share the characteristics that image post on KakaoStory problem
 
@@ -156,5 +153,8 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.8 =
 * Fixed an error in v1.4.7 of KakaoTalk button.
+
+= 1.4.9 =
+* Fixed a problem this option is not kept hidden mobile.
 
 == Arbitrary section 1 ==

@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: You can Insert share buttons for korean in contents post or page. - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band ---> <a href="http://icansoft.com/?page_id=1041">Plugin Page</a> | <a href="http://facebook.com/groups/koreasns">Support</a>
 Author: Jongmyoung Kim 
-Version: 1.4.8
+Version: 1.4.9
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -386,7 +386,7 @@ function kon_tergos_options () {
 					<tr>
 						<td>&nbsp;</td>
 						<td>
-							<input type="checkbox" name="kon_tergos_mobile_only" '.$check_mobile_only.' /> Hide mobile-click on the desktop (Kakaotalk, Naver Line, Naver Band)
+							<input type="checkbox" name="kon_tergos_mobile_only" <?php echo $check_mobile_only; ?>/> Hide mobile-click on the desktop (Kakaotalk, Naver Line, Naver Band)
 						</td>
 					</tr>
 					<tr>
