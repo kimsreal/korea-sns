@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: Jongmyoung Kim
-Donate link: http://icansoft.com/?page_id=1041
+Donate link: http://icansoft.com/?page_id=1297
 Tags: kakao, kakao talk, share, post, page, naver, line, facebook
 Requires at least: 3.0.1
 Tested up to: 4.0

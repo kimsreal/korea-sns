@@ -316,7 +316,8 @@ function kon_tergos_options () {
 			<h2 style="float:left;"><?php echo __( 'Korea SNS', 'menu-test' ); ?></h2>
 			<span style="float:right;">
 				<a href="http://icansoft.com/?page_id=1041" target="_blank">Go Korea SNS Homepage</a> <b>|</b>
-				<a href="http://facebook.com/groups/koreasns" target="_blank">Go Support Forum (facebook group)</a>
+				<a href="http://facebook.com/groups/koreasns" target="_blank">Go Support Forum (facebook group)</a> <b>|</b>
+				<a href="http://icansoft.com/?page_id=1297" target="_blank">About Donation</a>
 			</span>
 		</div>
 		
@@ -327,12 +328,25 @@ function kon_tergos_options () {
 			<div class="postbox">
 			<h3><?php echo __("General options", 'menu-test' ); ?></h3>
 			<div class="inside">
-				<table>
+				<table width="100%">
 					<tr>
 						<td style="width:130px;">
 							<?php echo __("Active share buttons", 'menu-test' ); ?>:
 						</td>
 						<td>
+						
+							<div style="max-width:400px;float:right;border:1px solid #ccc;padding:5px 20px;">
+								<center>
+									<p>We want your donate to cover the cost free service.</p>
+									<a href="http://icansoft.com/?page_id=1297" target="_blank">
+										<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">
+									</a>
+									<br>
+									<a href="http://icansoft.com/?page_id=1297" target="_blank">About Donation</a>
+								</center>
+							</div>
+
+
 							<?php 
 								foreach ($active_buttons as $name => $text) {
 									$checked = ($option['active_buttons'][$name]) ? 'checked="checked"' : '';
@@ -431,6 +445,9 @@ function kon_tergos_options () {
 			<input type="submit" name="Submit" class="button-primary" value="<?php echo esc_attr('Save Changes'); ?>" />
 		</p>
 		</form>
+		
+		
+		
 	</div>
 	</div>
 	</div>
