@@ -13,12 +13,12 @@ Puts Korea social share buttons in post or page.
 == Description ==
 
 You can Insert share buttons for korean in contents post or page.
-Share Buttons - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band
 The post can be inserted into the button information, information before, after, or during you.
 You can set the plug-in settings page before, is inserted after the selection.
 If you enter a short code in the article is my content is inserted as follows: [korea_sns_button]
-More info : http://icansoft.com/?page_id=1041
-Support Forum : http://facebook.com/groups/koreasns
+* Share Buttons - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band, naver blog
+* More info : http://icansoft.com/?page_id=1041
+* Support Forum : http://facebook.com/groups/koreasns
 
 == Installation ==
 
@@ -38,6 +38,7 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 2. Options
 3. goto http://icansoft.com/?page_id=1041 for more information.
 4. Kakaostory
+4. Naver Blog
 
 == Changelog ==
 
@@ -98,6 +99,12 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 = 1.4.9 =
 * Fixed a problem this option is not kept hidden mobile.
 
+= 1.4.10 =
+* Two or more shortcode exposure KakaoTalk has only one button to correct the problem that operation.
+
+= 1.5 =
+* Naver blog share button has been added.
+
 == Upgrade Notice ==
 
 = 1.1 =
@@ -156,5 +163,11 @@ and upload the korea_sns directory into the /wp-content/plugins/ directory
 
 = 1.4.9 =
 * Fixed a problem this option is not kept hidden mobile.
+
+= 1.4.10 =
+* Two or more shortcode exposure KakaoTalk has only one button to correct the problem that operation.
+
+= 1.5 =
+* Naver blog share button has been added.
 
 == Arbitrary section 1 ==

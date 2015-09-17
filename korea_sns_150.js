@@ -62,6 +62,15 @@ function SendSNS(sns, title, url, image)
                 g_proto:'scheme=bandapp;package=com.nhn.android.band'
             };
             break;
+            
+        case 'naverblog':
+        		o = {
+                method:'popup',
+                height:600,
+                width:600,
+                url:'http://blog.naver.com/openapi/share?url=' + _url + '&title=' + _title
+            };
+            break; 
  
         default:
             return false;

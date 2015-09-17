@@ -4,7 +4,7 @@ Plugin Name: Korea SNS
 Plugin URI: http://icansoft.com/?page_id=1041
 Description: You can Insert share buttons for korean in contents post or page. - facebook, twitter, google, kakaotalk, kakaostory, naver line, naver band ---> <a href="http://icansoft.com/?page_id=1041">Plugin Page</a> | <a href="http://facebook.com/groups/koreasns">Support</a>
 Author: Jongmyoung Kim 
-Version: 1.4.9
+Version: 1.5.0
 Author URI: http://icansoft.com/ 
 License: GPL2
 */
@@ -38,7 +38,7 @@ function kon_tergos_init() {
 
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kakao_sdk', 'https://developers.kakao.com/sdk/js/kakao.min.js');
-	wp_enqueue_script('koreasns_js', plugins_url( 'korea_sns_147.js', __FILE__ ));
+	wp_enqueue_script('koreasns_js', plugins_url( 'korea_sns_150.js', __FILE__ ));
 	wp_register_style( 'koreasns_css', plugins_url('korea_sns.css', __FILE__) );
 	wp_enqueue_style( 'koreasns_css' );
 }
@@ -206,8 +206,11 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 		$strSocialButtons .= $loc;
 	}
 	
+	static $nKakaotalkBtCount = 1;
+	
 	$strSocialButtons .= $locKakaotalk;
-	$strSocialButtonsFirst = str_replace('[_POST_ID_]', get_the_ID().'-1', $strSocialButtons);
+	$strSocialButtonsFirst = str_replace('[_POST_ID_]', get_the_ID().'-'.$nKakaotalkBtCount, $strSocialButtons);
+	$nKakaotalkBtCount ++;
 
 	$last_execution = $filter;
 	if ($filter=='shortcode') return '<div class="korea-sns-shortcode">'.$strSocialButtonsFirst.'</div>';
@@ -219,7 +222,8 @@ function kon_tergos ($content, $filter, $link='', $title='') {
 	if( is_single() || is_page() ){
 		switch( $option['position'] ){
 			case 'both':
-				$strSocialButtonsSecond = str_replace('[_POST_ID_]', get_the_ID().'-2', $strSocialButtons);
+				$strSocialButtonsSecond = str_replace('[_POST_ID_]', get_the_ID().'-'.$nKakaotalkBtCount, $strSocialButtons);
+				$nKakaotalkBtCount ++;
 				$out2 = '<div class="korea-sns"><div class="korea-sns-post '.$classFloat.'">'.$strSocialButtonsSecond.'</div><div style="clear:both;"></div></div>';
 				return $out.$content.$out2;
 			case 'above':
@@ -249,7 +253,8 @@ function kon_tergos_options () {
 		'kakaostory'=>'Kakao Story',
 		'kakaotalk'=>'Kakaotalk Link',
 		'naverline'=>'Naver Line',
-		'naverband'=>'Naver Band'
+		'naverband'=>'Naver Band',
+		'naverblog'=>'Naver Blog'
 	);	
 
 	$show_in = array(
@@ -502,7 +507,7 @@ function kon_tergos_get_options_stored () {
 
 function kon_tergos_get_options_default ($position='above') {
 	$option = array();
-	$option['active_buttons'] = array('facebook'=>true, 'twitter'=>true, 'google'=>true, 'kakaostory'=>true, 'kakaotalk'=>true, 'naverline'=>true, 'naverband'=>true);
+	$option['active_buttons'] = array('facebook'=>true, 'twitter'=>true, 'google'=>true, 'kakaostory'=>true, 'kakaotalk'=>true, 'naverline'=>true, 'naverband'=>true, 'naverblog'=>true);
 	$option['position'] = $position;
 	$option['position_float'] = 'left';
 	$option['mobile_only'] = true;
